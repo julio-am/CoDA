@@ -111,20 +111,30 @@ Attempted: $CMD
 Logged to: $LOG" ;;
 esac
 
-# Reject an explicit refspec that names anything other than the current branch.
-REFS="$(printf '%s' "$CMD" | sed -E 's/.*git[[:space:]]+push[[:space:]]*//' \
-        | tr ' ' '\n' | grep -vE '^(-|origin$|upstream$|--set-upstream$|-u$|$)')"
-if [ -n "$REFS" ]; then
-  while IFS= read -r r; do
-    [ -z "$r" ] && continue
-    if [ "$r" != "$BRANCH" ] && [ "$r" != "HEAD" ]; then
-      deny "refspec" "Blocked: refspec '$r' is not the current task branch ('$BRANCH').
+# Reject an explicit refspec that names anything other than the current
+# branch. Only words belonging to the push command itself count: the scan
+# stops at the first shell operator, so redirections and pipeline tails
+# (`2>&1 | tail`) are not mistaken for refspecs — that false block hit the
+# first real reviewer push.
+REFS=""
+# shellcheck disable=SC2086  # word-splitting the command tail is the point
+for w in $(printf '%s' "$CMD" | sed -E 's/.*git[[:space:]]+push[[:space:]]*//'); do
+  case "$w" in
+    *['|;&<>']*) break ;;
+    -*) : ;;
+    origin|upstream) : ;;
+    *) REFS="$REFS $w" ;;
+  esac
+done
+# shellcheck disable=SC2086  # deliberate split over collected words
+for r in $REFS; do
+  if [ "$r" != "$BRANCH" ] && [ "$r" != "HEAD" ]; then
+    deny "refspec" "Blocked: refspec '$r' is not the current task branch ('$BRANCH').
 
 Attempted: $CMD
 Logged to: $LOG"
-    fi
-  done <<< "$REFS"
-fi
+  fi
+done
 
 log "ALLOWED"
 echo "git push allowed for reviewer on '$BRANCH' — logged to $LOG"

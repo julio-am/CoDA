@@ -109,3 +109,14 @@ setup() {
   [ "$status" -eq 0 ]
   [ ! -e .harness/logs/git-push.log ]
 }
+
+# @harness:R-004
+@test "redirections and pipelines after the push are not treated as refspecs" {
+  git checkout -q -b task/T
+  run pguard devagent:reviewer "git push -u origin task/T 2>&1 | tail -10"
+  [ "$status" -eq 0 ]
+  run pguard devagent:reviewer "git push 2>&1"
+  [ "$status" -eq 0 ]
+  run pguard devagent:reviewer "git push origin task/OTHER 2>&1"
+  [ "$status" -eq 2 ]
+}
