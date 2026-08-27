@@ -138,22 +138,25 @@ above the test function, or in the test's docstring.
 
 ---
 
-## R-006 — INSTALL.sh behaviour locked by tests
+## R-006 — harness-init points the engine at a target repo
 
-- **Status:** todo
-- **Intent:** The installer's two promises — refuse on any collision copying
-  nothing, and copy the full tree with exec bits on a clean target — are
-  untested. Lock them.
+- **Status:** done
+- **Intent:** ~~INSTALL.sh copies the harness into a repo~~ Superseded by the
+  pointing model: `scripts/harness-init.sh` scaffolds a target's
+  `.harness/` (config with the engine root stamped, state, logs), a backlog
+  at the configured roadmap path, and additively merges the plugin pointer
+  and permission floor into the target's `.claude/settings.json`. Idempotent;
+  never overwrites; refuses non-repos and the engine itself.
 - **Acceptance:**
-  - [ ] `install refuses a colliding target, copies nothing, exits 1`
-  - [ ] `install copies the tree and marks scripts executable on a clean repo`
-  - [ ] `install refuses a target that is not a git repository`
-- **Constraints:** Fixture repos in a temp dir; never install into this repo.
-- **Depends on:** R-002
-- **Out of scope:** New installer features (merge mode, dry-run).
-- **Notes:** —
-
----
+  - [x] `init scaffolds config, state, logs, roadmap, and settings`
+  - [x] `init is idempotent and never clobbers existing files`
+  - [x] `init refuses a non-git target and refuses the engine itself`
+  - [x] `init honours a pre-existing HARNESS_ROADMAP path`
+- **Constraints:** Additive settings merge only — existing keys always win.
+- **Depends on:** R-007
+- **Out of scope:** Un-pointing (removal); multi-engine setups.
+- **Notes:** Rewritten 2026-08-26 when INSTALL.sh was retired; done the same
+  day, directly by the overseer. Original INSTALL.sh remains in git history.
 
 ## Reconciliation log
 

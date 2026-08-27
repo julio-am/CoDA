@@ -1,3 +1,9 @@
+> **Superseded 2026-08-26.** This document is the original design rationale
+> for the copy-into-repo model. DevAgent now loads as a Claude Code plugin
+> pointed at target repos (`scripts/harness-init.sh`); enforcement is
+> session-wide hooks keyed on the hook input's `agent_type`. See CLAUDE.md.
+> Kept as design provenance.
+
 # Coding harness
 
 A four-stage loop for agent-assisted development, with two human gates.

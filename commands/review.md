@@ -9,7 +9,7 @@ Delegate to the `reviewer` subagent:
 
 > Review the current task branch against `.harness/state/current-task.md` and
 > `.harness/state/plan.md`. Audit the new tests with
-> `./scripts/verify-new-tests.sh`. Reconcile `docs/roadmap.md` and the affected
+> `./scripts/verify-new-tests.sh`. Reconcile the roadmap (path in `HARNESS_ROADMAP`) and the affected
 > docs against the code. Write `.harness/state/review.md`.
 
 **Do not** give the reviewer the implementer's handoff, your summary of the

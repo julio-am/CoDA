@@ -19,8 +19,8 @@ Steps:
    Reference the roadmap ID in both messages. Plain messages, no marketing.
 3. Merge the task branch into the default branch with `--no-ff`.
 4. Archive the loop state: copy `.harness/state/*.md` to
-   `.harness/logs/<ID>-<date>/`, then reset the state files to the templates in
-   `.harness/templates/`.
+   `.harness/logs/<ID>-<date>/`, then reset the state files from the engine's
+   templates (`$HARNESS_ENGINE_ROOT/templates/`, per `.harness/config.env`).
 5. Report the merge commit and tell me the default branch is ready to push.
 
 **Do not push the default branch.** I push that, by hand, every time. The

@@ -39,40 +39,51 @@ guess a test runner.
 | Test — full suite | `bats tests` |
 | Test — single file | `bats {file}` |
 | Test — by marker/name | `bats tests --filter {pattern}` |
-| Lint | `shellcheck scripts/*.sh INSTALL.sh` |
-| Typecheck / static analysis | `bash -n scripts/*.sh INSTALL.sh` |
+| Lint | `shellcheck scripts/*.sh` |
+| Typecheck / static analysis | `bash -n scripts/*.sh` |
 | Format | (none — match the surrounding style; see Style) |
 
 The suite is seconds long; there is no separate fast subset.
 
 ## Repository map
 
-- `scripts/` — the product. Status derivation (`harness-status.sh`), test
-  audit (`verify-new-tests.sh`), and the enforcement guards (`guard-*.sh`).
-  **Guards are human-owned:** the implementer's write scope excludes
-  `scripts/guard-*` by hook, so a task that changes a guard is implemented by
-  the human, never by an agent inside the loop the guard constrains.
+- `.claude-plugin/` — plugin and local-marketplace manifests. This repo IS a
+  Claude Code plugin; target repos load it via two keys in their
+  `.claude/settings.json` (written by `harness-init`).
+- `agents/` — the five stage prompts (surveyor, architect, plan-critic,
+  implementer, reviewer). Edited only by the human, between loops, one
+  change at a time — prompt edits are the harness's only tuning knob, and
+  changing two things at once destroys the only eval available (re-running
+  the same task). No `hooks:` frontmatter: plugin agents' frontmatter hooks
+  never fire (probed 2026-08-26); enforcement lives in `hooks/hooks.json`.
+- `commands/` — `/next` `/plan` `/build` `/review` `/land`.
+- `hooks/hooks.json` — session-wide PreToolUse wiring for the two guards,
+  via `${CLAUDE_PLUGIN_ROOT}`. This is the enforcement path.
+- `scripts/` — the machinery. Status derivation (`harness-status.sh`), test
+  audit (`verify-new-tests.sh`), the guards (`guard-*.sh`), and
+  `harness-init.sh`, which points the engine at a target repo.
+  **Guards are human-owned** — in this repo's own scope config the
+  implementer deny pattern excludes `scripts/guard-*`.
+- `templates/` — shapes of the loop state files, plus the target scaffolds
+  (`config.env`, `roadmap.md`) that `harness-init` stamps out.
 - `tests/` — bats suite. Acceptance tests carry a `# @harness:R-NNN` marker.
-- `docs/roadmap.md` — intent. Only the reviewer writes to it.
-- `.claude/agents/`, `.claude/commands/` — the five stage prompts and the
-  slash commands. Edited only by the human, between loops, one change at a
-  time — prompt edits are the harness's only tuning knob, and changing two
-  things at once destroys the only eval available (re-running the same task).
-- `.harness/config.env` — the commands above, machine-readable for scripts.
-- `.harness/state/` — live loop state. One writer per file; table below.
-- `.harness/templates/` — the shape of each state file.
-- `.harness/logs/` — untracked. Archived loops and `git-push.log`.
-- `INSTALL.sh` — copies the harness into a target repo; refuses collisions.
-- `HANDOFF.md`, `README-harness.md` — installation and design rationale.
+- `docs/roadmap.md` — this repo's own backlog (engine work).
+- `.harness/` — this repo's own scope config for guard tests; state is
+  unused while the engine is not a target.
+- `HANDOFF.md`, `README-harness.md` — design provenance from the original
+  copy-install model; superseded notes at top.
 
 ## Invariants
 
 These are what the plan-critic checks plans against. Violating one is a
 blocking finding, not a style preference.
 
-1. **Guards fail closed.** Hook input that cannot be parsed exits 2. No parse
-   path may fall through to "no path found, allow". (R-001 exists because the
-   sed fallback violates this today.)
+1. **Guards fail closed, and identify the actor from hook input.** The role
+   comes from the hook JSON's `agent_type` field (`devagent:<role>`), never
+   from an argument. No `agent_type` = the human's session (allowed; pushes
+   still logged). Non-devagent agents are not policed by the write guard but
+   may never push. Unparseable input exits 2. (R-001 was a fall-through to
+   allow; it stays the cautionary tale.)
 2. **Hook exit codes are the contract.** 0 allows, 2 blocks with a stderr
    message the agent sees. Nothing else. A guard must never exit 1 — Claude
    Code treats non-2 as a non-blocking error and the write proceeds.
@@ -87,7 +98,7 @@ blocking finding, not a style preference.
    | `.harness/state/plan-critique.md` | plan-critic |
    | per-repo source scope (see below) | implementer |
    | `docs/**`, `.harness/state/review.md` | reviewer |
-   | `scripts/guard-*`, `.claude/**` | human only |
+   | `scripts/guard-*`, `agents/**`, `commands/**`, `hooks/**` | human only |
    | `.harness/state/blockers.md` | whichever agent is blocked |
 5. **Write scopes are per-repo configuration.** The implementer's scope is
    `HARNESS_IMPLEMENTER_SCOPE` (+ optional `_DENY`) in the target repo's

@@ -4,13 +4,13 @@
 REPO="$BATS_TEST_DIRNAME/.."
 
 @test "every script parses (bash -n)" {
-  for f in "$REPO"/scripts/*.sh "$REPO"/INSTALL.sh; do
+  for f in "$REPO"/scripts/*.sh; do
     bash -n "$f"
   done
 }
 
 @test "every script is executable" {
-  for f in "$REPO"/scripts/*.sh "$REPO"/INSTALL.sh; do
+  for f in "$REPO"/scripts/*.sh; do
     [ -x "$f" ]
   done
 }

@@ -1,48 +1,65 @@
 #!/usr/bin/env bash
-# guard-write-paths.sh <role>
+# guard-write-paths.sh
 #
-# PreToolUse hook. Enforces one-writer-per-artifact for the harness agents.
-# Reads Claude Code's hook JSON on stdin, extracts the target path, and exits
-# 2 to block a write outside the role's scope. Exit 2 blocks the tool call and
-# feeds the stderr message back to the agent.
+# PreToolUse hook on Write|Edit, wired session-wide by the plugin's
+# hooks/hooks.json. Enforces one-writer-per-artifact for the harness agents.
 #
-# Uses jq if available, else python3, else sed. Fails closed.
+# The acting agent is identified from the hook input's agent_type field —
+# never from an argument, so an agent cannot invoke itself into a wider
+# scope. Calls with no agent_type are the human's own session and pass.
+# Calls from agents outside the devagent: namespace are not ours to police.
+#
+# Exit 0 allows, exit 2 blocks and feeds stderr back to the agent.
+# Anything unparseable fails closed.
 set -uo pipefail
 
-ROLE="${1:-unknown}"
 INPUT="$(cat)"
 
-# Extract the target path. jq if present, python3 next, sed as a last resort.
-extract_path() {
+# --- field extraction: jq, then python3, then sed ------------------------
+extract() { # extract <field>
   if command -v jq >/dev/null 2>&1; then
-    printf '%s' "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty'
+    printf '%s' "$INPUT" | jq -r --arg f "$1" \
+      'if $f == "file_path"
+       then (.tool_input.file_path // .tool_input.path // empty)
+       else (.[$f] // empty) end'
   elif command -v python3 >/dev/null 2>&1; then
     printf '%s' "$INPUT" | python3 -c 'import sys,json
 try:
-    d = json.load(sys.stdin).get("tool_input", {}) or {}
-    print(d.get("file_path") or d.get("path") or "")
+    d = json.load(sys.stdin)
+    f = sys.argv[1]
+    if f == "file_path":
+        ti = d.get("tool_input") or {}
+        print(ti.get("file_path") or ti.get("path") or "")
+    else:
+        print(d.get(f) or "")
 except Exception:
-    sys.exit(3)'
+    sys.exit(3)' "$1"
   else
-    # Try file_path first, then path — mirrors the jq/python3 branches.
-    p="$(printf '%s' "$INPUT" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
-    [ -z "$p" ] && p="$(printf '%s' "$INPUT" | sed -n 's/.*"path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
-    printf '%s' "$p"
+    # Last resort. Only trustworthy if this even looks like hook JSON.
+    printf '%s' "$INPUT" | grep -q '"hook_event_name"' || return 3
+    printf '%s' "$INPUT" | sed -n 's/.*"'"$1"'"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1
   fi
 }
 
-PATH_ARG="$(extract_path)"
-EXTRACT_RC=$?
-
-if [ $EXTRACT_RC -ne 0 ]; then
+AGENT_TYPE="$(extract agent_type)" || {
   echo "guard-write-paths.sh: could not parse hook input; refusing to allow an unguarded write" >&2
   exit 2
-fi
+}
 
-# This guard only runs under a Write|Edit matcher, and those tools always
-# carry a target path. An empty extraction is a parse failure, and a parse
-# failure fails closed (CLAUDE.md invariant 1) — the R-001 bug was exactly
-# this case falling through to allow.
+# The human's own session, or another plugin's agent: not ours to guard.
+[ -z "$AGENT_TYPE" ] && exit 0
+case "$AGENT_TYPE" in
+  devagent:*) ROLE="${AGENT_TYPE#devagent:}" ;;
+  *) exit 0 ;;
+esac
+
+PATH_ARG="$(extract file_path)" || {
+  echo "guard-write-paths.sh: could not parse hook input; refusing to allow an unguarded write" >&2
+  exit 2
+}
+
+# Write|Edit always carry a target path; an empty extraction is a parse
+# failure, and parse failures fail closed.
 if [ -z "$PATH_ARG" ]; then
   echo "guard-write-paths.sh: no target path could be extracted from the hook input; refusing to allow an unguarded write" >&2
   exit 2
@@ -80,7 +97,7 @@ case "$ROLE" in
     fi ;;
   reviewer)    ALLOW="${HARNESS_REVIEWER_SCOPE:-^(docs/|\.harness/state/review\.md$)}" ;;
   *)
-    echo "guard-write-paths.sh: unknown role '$ROLE'. Blocking write to $REL." >&2
+    echo "guard-write-paths.sh: unknown devagent role '$ROLE'. Blocking write to $REL." >&2
     exit 2
     ;;
 esac
@@ -88,12 +105,10 @@ esac
 if printf '%s' "$REL" | grep -Eq "$ALWAYS"; then exit 0; fi
 if [ -n "$DENY" ] && printf '%s' "$REL" | grep -Eq "$DENY"; then
   cat >&2 <<MSG
-Blocked: the '$ROLE' agent may not modify an enforcement guard ('$REL').
-
-The guards are what make this harness a harness, and they are human-owned: a
-task that changes one is implemented by the human, outside the loop the guard
-constrains. An agent editing its own enforcement is the failure mode, not a
-workflow.
+Blocked: the '$ROLE' agent may not write to '$REL' — it matches this
+repository's deny pattern ($DENY). In the engine repo that means the
+enforcement guards themselves: they are human-owned, and an agent editing
+its own enforcement is the failure mode, not a workflow.
 
 Report the needed change in .harness/state/blockers.md instead.
 MSG

@@ -8,7 +8,8 @@ Run stage 1 of the development harness.
 
 Delegate to the `surveyor` subagent. Give it this task:
 
-> Establish true repository status, reconcile it against `docs/roadmap.md`, and
+> Establish true repository status, reconcile it against the roadmap (path in `HARNESS_ROADMAP` in
+> `.harness/config.env`, default `docs/roadmap.md`), and
 > emit exactly one task packet to `.harness/state/current-task.md`.
 > $ARGUMENTS
 >
