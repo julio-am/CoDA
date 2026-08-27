@@ -6,6 +6,9 @@ disable-model-invocation: true
 
 Land the current task. I have read the review and accepted it.
 
+Work without narration — no play-by-play. Your visible output is each
+confirmation checkpoint and the final state.
+
 Diff summary: !`git diff --stat $(git merge-base HEAD @{u} 2>/dev/null || echo HEAD~1)...HEAD`
 Status: !`git status --porcelain`
 

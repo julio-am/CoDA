@@ -6,6 +6,9 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Run stage 1 of the development harness.
 
+Work without narration — no play-by-play, no announcing steps. Your
+visible output is the report specified at the end.
+
 Delegate to the `surveyor` subagent. Give it this task:
 
 > Establish true repository status, reconcile it against the roadmap (path in `HARNESS_ROADMAP` in

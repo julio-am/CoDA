@@ -5,6 +5,9 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Run stage 4 of the development harness.
 
+Work without narration — no play-by-play, no announcing steps. Your
+visible output is the gate summary specified at the end.
+
 Delegate to the `reviewer` subagent:
 
 > Review the current task branch against `.harness/state/current-task.md` and

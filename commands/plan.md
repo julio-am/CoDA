@@ -5,6 +5,9 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Run stage 2 of the development harness. This is two delegations in sequence.
 
+Work without narration — no play-by-play, no announcing steps. Your
+visible output is the gate summary specified at the end.
+
 **First**, delegate to the `architect` subagent:
 
 > Read `.harness/state/current-task.md`, open every file it points at, and
