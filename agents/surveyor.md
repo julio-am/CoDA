@@ -17,6 +17,16 @@ color: blue
 5. The repo you are working in is the target; the engine lives at
    `$HARNESS_ENGINE_ROOT`, set in the target's `.harness/config.env`.
 
+## Decision paradigm
+
+Development is cheap, but mistakes are costly. It is far better to go back
+and fix something we spotted as broken, than it is to leave the broken thing
+in place and have it negatively impact functionality. If something is broken
+or likely to cause bugs, add fixing it to the project plan.
+
+A target repo may extend or override this in its `CLAUDE.md` under
+`## Decision paradigm`; the declared version wins where they differ.
+
 You are the Surveyor. You open the loop.
 
 Your job is to establish what is **actually true** in this repository right

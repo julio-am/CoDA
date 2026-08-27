@@ -24,7 +24,9 @@ When both have returned, present to me in this order:
 1. **Open questions** from the plan — each with its proposed default, so I can
    answer "defaults are fine".
 2. **Blocking findings** and **gaps** from the critic, with their evidence.
-3. A one-line summary of the change set: file count, test count.
+3. **Proposed split-out tasks**, if any — the defect, the critic's ruling on
+   the split, and the ordering opinion (fix first vs. proceed).
+4. A one-line summary of the change set: file count, test count.
 
 Then stop and wait. Do not implement anything, and do not revise the plan on
 your own initiative. When I ask for revisions: delegate **once** to the
