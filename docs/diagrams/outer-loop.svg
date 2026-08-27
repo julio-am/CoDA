@@ -1,0 +1,129 @@
+<svg viewBox="0 0 1180 470" role="img" aria-label="Outer loop: the human-owned north star fences the backlog into milestones; /cycle drives inner loops; events feed trajectory and autonomy; tripwires and milestone exhaustion route to /chart, where the navigator proposes and the human approves changes back into the backlog and north star." xmlns="http://www.w3.org/2000/svg"><style>text{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}@media(prefers-color-scheme:dark){.f-ink{fill:#DCE3DA}.s-ink{stroke:#DCE3DA}.f-mut{fill:#98A294}.s-mut{stroke:#98A294}.f-ok{fill:#5CB884}.s-ok{stroke:#5CB884}.f-bad{fill:#D96A4E}.s-bad{stroke:#D96A4E}.f-hum{fill:#C7A94F}.s-hum{stroke:#C7A94F}}</style>
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#20261F" class="f-ink"/>
+    </marker>
+    <marker id="bbad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#B3402A" class="f-bad"/>
+    </marker>
+    <marker id="bhum" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8A6D1F" class="f-hum"/>
+    </marker>
+  </defs>
+
+  <!-- north star -->
+  <g fill="none" stroke="#8A6D1F" class="s-hum" stroke-width="1.6">
+    <rect x="20" y="30" width="240" height="78" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="140" y="56" font-size="13" font-weight="600" fill="#20261F" class="f-ink">northstar.md</text>
+    <text x="140" y="74" font-size="11" fill="#8A6D1F" class="f-hum">human-owned · agents hook-denied</text>
+    <text x="140" y="92" font-size="11" fill="#5C665A" class="f-mut">goal · non-goals · milestone ladder</text>
+  </g>
+
+  <!-- backlog -->
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1.3">
+    <rect x="360" y="30" width="220" height="78" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="470" y="56" font-size="13" font-weight="600" fill="#20261F" class="f-ink">backlog.md</text>
+    <text x="470" y="74" font-size="11" fill="#5C665A" class="f-mut">R-NNN · Milestone: field</text>
+    <text x="470" y="92" font-size="11" fill="#5C665A" class="f-mut">writer: reviewer (+ /chart applies)</text>
+  </g>
+
+  <!-- cycle / inner loop -->
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1.3">
+    <rect x="700" y="22" width="250" height="94" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="825" y="46" font-size="13" font-weight="600" fill="#20261F" class="f-ink">/cycle</text>
+    <text x="825" y="64" font-size="11" fill="#5C665A" class="f-mut">inner loop, task after task</text>
+    <text x="825" y="80" font-size="11" fill="#5C665A" class="f-mut">gates auto-pass only per level</text>
+    <text x="825" y="96" font-size="11" fill="#5C665A" class="f-mut">cap: HARNESS_CYCLE_MAX</text>
+  </g>
+
+  <!-- events / trajectory -->
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1" stroke-dasharray="4 3">
+    <rect x="700" y="190" width="250" height="56" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="825" y="213" font-size="12.5" font-weight="600" fill="#20261F" class="f-ink">loop-events.log</text>
+    <text x="825" y="231" font-size="11" fill="#5C665A" class="f-mut">append-only · survives state resets</text>
+  </g>
+
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1.3">
+    <rect x="700" y="300" width="250" height="74" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="825" y="324" font-size="12.5" font-weight="600" fill="#20261F" class="f-ink">trajectory + autonomy</text>
+    <text x="825" y="342" font-size="11" fill="#5C665A" class="f-mut">rates · interventions · tripwires</text>
+    <text x="825" y="360" font-size="11" fill="#5C665A" class="f-mut">level derived on every read</text>
+  </g>
+
+  <!-- chart -->
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1.3">
+    <rect x="360" y="300" width="220" height="74" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="470" y="322" font-size="13" font-weight="600" fill="#20261F" class="f-ink">/chart · navigator</text>
+    <text x="470" y="340" font-size="11" fill="#5C665A" class="f-mut">milestone audit · alignment audit</text>
+    <text x="470" y="358" font-size="11" fill="#5C665A" class="f-mut">writes chart-proposal.md only</text>
+  </g>
+
+  <!-- flows -->
+  <g stroke="#20261F" class="s-ink" stroke-width="1.1" fill="none" marker-end="url(#b)">
+    <path d="M260 69 H356"/>
+    <path d="M580 69 H696"/>
+    <path d="M825 116 V186"/>
+    <path d="M825 246 V296"/>
+  </g>
+  <g font-size="10.5" fill="#5C665A" class="f-mut">
+    <text x="268" y="61">fences milestones</text>
+    <text x="592" y="61">surveyor picks in-fence</text>
+    <text x="833" y="150">every stage appends</text>
+    <text x="833" y="276">derives, never stores</text>
+  </g>
+
+  <!-- reviewer files defects (bottom-up inflow) -->
+  <path d="M700 40 C 620 -8 520 2 474 26" stroke="#20261F" class="s-ink" stroke-width="1.1" fill="none" marker-end="url(#b)"/>
+  <text x="560" y="12" font-size="10.5" fill="#5C665A" class="f-mut" text-anchor="middle">reviewer files defects + slices</text>
+
+  <!-- tripwires to chart -->
+  <path d="M700 337 H584" stroke="#B3402A" class="s-bad" stroke-width="1.4" fill="none" marker-end="url(#bbad)"/>
+  <text x="642" y="329" font-size="10.5" fill="#B3402A" class="f-bad" text-anchor="middle">tripwire fired</text>
+  <path d="M760 300 C 700 260 640 180 560 112" stroke="#B3402A" class="s-bad" stroke-width="1.1" stroke-dasharray="5 4" fill="none" marker-end="url(#bbad)"/>
+  <text x="600" y="205" font-size="10.5" fill="#B3402A" class="f-bad" text-anchor="middle">/next refuses a</text>
+  <text x="600" y="219" font-size="10.5" fill="#B3402A" class="f-bad" text-anchor="middle">drifting loop</text>
+
+  <!-- milestone exhausted -->
+  <path d="M470 108 V296" stroke="#20261F" class="s-ink" stroke-width="1.1" stroke-dasharray="5 4" fill="none" marker-end="url(#b)"/>
+  <text x="478" y="205" font-size="10.5" fill="#5C665A" class="f-mut">milestone exhausted</text>
+
+  <!-- proposal to human, human applies -->
+  <g fill="none" stroke="#8A6D1F" class="s-hum" stroke-width="1.6">
+    <rect x="60" y="300" width="160" height="74" rx="3"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="140" y="330" font-size="13" font-weight="600" fill="#8A6D1F" class="f-hum">HUMAN</text>
+    <text x="140" y="350" font-size="11" fill="#5C665A" class="f-mut">approves by section</text>
+  </g>
+  <path d="M360 337 H224" stroke="#8A6D1F" class="s-hum" stroke-width="1.3" fill="none" marker-end="url(#bhum)"/>
+  <text x="292" y="329" font-size="10.5" fill="#5C665A" class="f-mut" text-anchor="middle">proposal</text>
+  <g stroke="#8A6D1F" class="s-hum" stroke-width="1.3" fill="none" marker-end="url(#bhum)">
+    <path d="M120 300 C 110 220 110 160 132 112"/>
+    <path d="M200 300 C 260 220 340 150 420 112"/>
+  </g>
+  <text x="88" y="200" font-size="10.5" fill="#5C665A" class="f-mut" text-anchor="end">edits anchor</text>
+  <text x="330" y="180" font-size="10.5" fill="#5C665A" class="f-mut">coordinator applies</text>
+  <text x="330" y="194" font-size="10.5" fill="#5C665A" class="f-mut">approved items verbatim</text>
+
+  <!-- autonomy feeds gates -->
+  <path d="M950 337 C 1060 337 1060 69 954 69" stroke="#2E7D4F" class="s-ok" stroke-width="1.4" fill="none" marker-end="url(#aok)"/>
+  <text x="1068" y="200" font-size="10.5" fill="#2E7D4F" class="f-ok" text-anchor="middle">level sets which</text>
+  <text x="1068" y="214" font-size="10.5" fill="#2E7D4F" class="f-ok" text-anchor="middle">gates auto-pass</text>
+
+  <g font-size="11.5" fill="#5C665A" class="f-mut">
+    <text x="20" y="440">two inflows, one document: the reviewer files what the work uncovered (bottom-up); the navigator derives what the north star still needs (top-down).</text>
+    <text x="20" y="460">task selection never invents work — it picks from a backlog with accountable writers.</text>
+  </g>
+</svg>

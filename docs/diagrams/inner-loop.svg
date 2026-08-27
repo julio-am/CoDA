@@ -1,0 +1,109 @@
+<svg viewBox="0 0 1180 400" role="img" aria-label="Inner loop: surveyor, architect and plan-critic, implementer, reviewer pass work through single-writer state files, with human gates after planning and after review, ending in a gated merge and push at /land." xmlns="http://www.w3.org/2000/svg"><style>text{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}@media(prefers-color-scheme:dark){.f-ink{fill:#DCE3DA}.s-ink{stroke:#DCE3DA}.f-mut{fill:#98A294}.s-mut{stroke:#98A294}.f-ok{fill:#5CB884}.s-ok{stroke:#5CB884}.f-bad{fill:#D96A4E}.s-bad{stroke:#D96A4E}.f-hum{fill:#C7A94F}.s-hum{stroke:#C7A94F}}</style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#20261F" class="f-ink"/>
+    </marker>
+    <marker id="aok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2E7D4F" class="f-ok"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1.3">
+    <!-- stage boxes -->
+    <rect x="20"  y="60" width="150" height="64" rx="3"/>
+    <rect x="250" y="26" width="150" height="52" rx="3"/>
+    <rect x="250" y="96" width="150" height="52" rx="3"/>
+    <rect x="530" y="60" width="150" height="64" rx="3"/>
+    <rect x="790" y="60" width="150" height="64" rx="3"/>
+    <rect x="1030" y="60" width="130" height="64" rx="3"/>
+  </g>
+  <g font-size="13" fill="#20261F" class="f-ink" text-anchor="middle" font-weight="600">
+    <text x="95" y="86">surveyor</text>
+    <text x="325" y="48">architect</text>
+    <text x="325" y="118">plan-critic</text>
+    <text x="605" y="86">implementer</text>
+    <text x="865" y="86">reviewer</text>
+    <text x="1095" y="86">/land</text>
+  </g>
+  <g font-size="11" fill="#5C665A" class="f-mut" text-anchor="middle">
+    <text x="95" y="103">/next · picks in-milestone</text>
+    <text x="325" y="64">/plan · observes, designs</text>
+    <text x="325" y="134">rulings · 1 re-check</text>
+    <text x="605" y="103">/build · ≤6 attempts</text>
+    <text x="865" y="103">/review · independent</text>
+    <text x="1095" y="103">4 push gates</text>
+  </g>
+
+  <!-- state file spine -->
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1" stroke-dasharray="4 3">
+    <rect x="20" y="196" width="150" height="40" rx="3"/>
+    <rect x="250" y="176" width="150" height="40" rx="3"/>
+    <rect x="250" y="226" width="150" height="40" rx="3"/>
+    <rect x="530" y="196" width="150" height="40" rx="3"/>
+    <rect x="790" y="196" width="150" height="40" rx="3"/>
+  </g>
+  <g font-size="11" fill="#20261F" class="f-ink" text-anchor="middle">
+    <text x="95" y="220">current-task.md</text>
+    <text x="325" y="200">plan.md</text>
+    <text x="325" y="250">plan-critique.md</text>
+    <text x="605" y="220">code + tests</text>
+    <text x="865" y="220">review.md · backlog</text>
+  </g>
+  <g font-size="10.5" fill="#5C665A" class="f-mut" text-anchor="middle">
+    <text x="95" y="252">one writer each ↑</text>
+    <text x="605" y="252">task/&lt;ID&gt; branch</text>
+    <text x="865" y="252">+ docs reconciled</text>
+  </g>
+
+  <!-- writes down to files -->
+  <g stroke="#20261F" class="s-ink" stroke-width="1.1" fill="none" marker-end="url(#a)">
+    <path d="M95 124 V192"/>
+    <path d="M310 78 V172"/>
+    <path d="M340 148 V222"/>
+    <path d="M605 124 V192"/>
+    <path d="M855 124 V192"/>
+  </g>
+  <!-- reads across -->
+  <g stroke="#20261F" class="s-ink" stroke-width="1.1" fill="none" marker-end="url(#a)">
+    <path d="M170 92 H246"/>
+    <path d="M400 87 H526"/>
+    <path d="M680 92 H786"/>
+    <path d="M940 92 H1026"/>
+  </g>
+  <g font-size="10.5" fill="#5C665A" class="f-mut">
+    <text x="176" y="84">packet</text>
+    <text x="435" y="79">approved plan</text>
+    <text x="690" y="84">diff only</text>
+    <text x="948" y="84">Accept</text>
+  </g>
+  <!-- critic <-> architect -->
+  <path d="M325 96 V78" stroke="#20261F" class="s-ink" stroke-width="1.1" fill="none" marker-end="url(#a)" marker-start="url(#a)"/>
+
+  <!-- human gates -->
+  <g stroke="#8A6D1F" class="s-hum" stroke-width="3">
+    <line x1="460" y1="30" x2="460" y2="266"/>
+    <line x1="985" y1="30" x2="985" y2="266"/>
+  </g>
+  <g font-size="11" fill="#8A6D1F" class="f-hum" font-weight="600" text-anchor="middle">
+    <text x="460" y="292">GATE 1 · plan approval</text>
+    <text x="985" y="292">GATE 2 · review acceptance</text>
+  </g>
+
+  <!-- reviewer push + land merge -->
+  <g stroke="#2E7D4F" class="s-ok" stroke-width="1.4" fill="none" marker-end="url(#aok)">
+    <path d="M865 124 C865 330 1095 330 1095 322"/>
+    <path d="M1095 124 V180"/>
+  </g>
+  <g font-size="11" fill="#2E7D4F" class="f-ok">
+    <text x="900" y="345">pushes task/&lt;ID&gt; after Accept</text>
+    <text x="1104" y="150">merge --no-ff,</text>
+    <text x="1104" y="164">gated push</text>
+  </g>
+  <text x="1095" y="200" font-size="11" fill="#20261F" class="f-ink" text-anchor="middle">main → origin</text>
+
+  <!-- enforcement plane -->
+  <g font-size="11.5" fill="#5C665A" class="f-mut">
+    <text x="20" y="330">enforcement: every Write/Edit/Bash passes a PreToolUse hook → guard reads agent_type from the call itself</text>
+    <text x="20" y="350">devagent:&lt;role&gt; → that role's scope table (per-repo config) · absent = human (writes free, pushes logged) · unparseable = blocked</text>
+    <text x="20" y="378">events: every stage appends to loop-events.log — survey · critique counts · approval · attempts · verdicts · gates</text>
+  </g>
+</svg>

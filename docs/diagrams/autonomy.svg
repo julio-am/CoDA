@@ -1,0 +1,85 @@
+<svg viewBox="0 0 1180 430" role="img" aria-label="Autonomy state machine: level 0 both gates human, level 1 review gate auto, level 2 both gates auto, level 3 direction-only as a dashed target. Promotion edges require clean-task evidence; any rejection, rework, blocked build, or land-gate failure demotes to level 0 instantly. The human ceiling clamps the derived level." xmlns="http://www.w3.org/2000/svg"><style>text{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}@media(prefers-color-scheme:dark){.f-ink{fill:#DCE3DA}.s-ink{stroke:#DCE3DA}.f-mut{fill:#98A294}.s-mut{stroke:#98A294}.f-ok{fill:#5CB884}.s-ok{stroke:#5CB884}.f-bad{fill:#D96A4E}.s-bad{stroke:#D96A4E}.f-hum{fill:#C7A94F}.s-hum{stroke:#C7A94F}}</style>
+  <defs>
+    <marker id="c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#20261F" class="f-ink"/>
+    </marker>
+    <marker id="cok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2E7D4F" class="f-ok"/>
+    </marker>
+    <marker id="cbad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#B3402A" class="f-bad"/>
+    </marker>
+  </defs>
+
+  <!-- states -->
+  <g fill="none" stroke="#20261F" class="s-ink" stroke-width="1.5">
+    <rect x="30"  y="120" width="230" height="96" rx="4"/>
+    <rect x="400" y="120" width="230" height="96" rx="4"/>
+    <rect x="770" y="120" width="230" height="96" rx="4"/>
+  </g>
+  <rect x="1060" y="120" width="110" height="96" rx="4" fill="none" stroke="#20261F" class="s-ink" stroke-width="1.2" stroke-dasharray="5 4"/>
+
+  <g text-anchor="middle">
+    <text x="145" y="150" font-size="14" font-weight="600" fill="#20261F" class="f-ink">LEVEL 0</text>
+    <text x="145" y="172" font-size="11.5" fill="#5C665A" class="f-mut">plan gate: human</text>
+    <text x="145" y="190" font-size="11.5" fill="#5C665A" class="f-mut">review gate: human</text>
+    <text x="145" y="208" font-size="11.5" fill="#5C665A" class="f-mut">everyone starts here</text>
+
+    <text x="515" y="150" font-size="14" font-weight="600" fill="#20261F" class="f-ink">LEVEL 1</text>
+    <text x="515" y="172" font-size="11.5" fill="#5C665A" class="f-mut">plan gate: human</text>
+    <text x="515" y="190" font-size="11.5" fill="#2E7D4F" class="f-ok">review auto-lands on clean,</text>
+    <text x="515" y="206" font-size="11.5" fill="#2E7D4F" class="f-ok">adjudicated Accept</text>
+
+    <text x="885" y="150" font-size="14" font-weight="600" fill="#20261F" class="f-ink">LEVEL 2</text>
+    <text x="885" y="172" font-size="11.5" fill="#2E7D4F" class="f-ok">plan auto-passes on fully</text>
+    <text x="885" y="188" font-size="11.5" fill="#2E7D4F" class="f-ok">CLEARED re-check</text>
+    <text x="885" y="206" font-size="11.5" fill="#5C665A" class="f-mut">human touch: /chart only</text>
+
+    <text x="1115" y="152" font-size="12.5" font-weight="600" fill="#5C665A" class="f-mut">L3</text>
+    <text x="1115" y="174" font-size="10.5" fill="#5C665A" class="f-mut">direction</text>
+    <text x="1115" y="188" font-size="10.5" fill="#5C665A" class="f-mut">only</text>
+    <text x="1115" y="206" font-size="10.5" fill="#5C665A" class="f-mut">(target)</text>
+  </g>
+
+  <!-- promotion edges -->
+  <g stroke="#2E7D4F" class="s-ok" stroke-width="1.6" fill="none" marker-end="url(#cok)">
+    <path d="M260 152 H396"/>
+    <path d="M630 152 H766"/>
+  </g>
+  <path d="M1000 152 H1056" stroke="#2E7D4F" class="s-ok" stroke-width="1.3" stroke-dasharray="5 4" fill="none" marker-end="url(#cok)"/>
+  <g font-size="11" fill="#2E7D4F" class="f-ok" text-anchor="middle">
+    <text x="328" y="126">≥ 3 clean tasks</text>
+    <text x="328" y="141">in the window</text>
+    <text x="698" y="126">+ proven zero human</text>
+    <text x="698" y="141">interventions</text>
+  </g>
+  <text x="1028" y="136" font-size="10.5" fill="#5C665A" class="f-mut" text-anchor="middle">sustained 2 +</text>
+  <text x="1028" y="150" font-size="10.5" fill="#5C665A" class="f-mut" text-anchor="middle">trusted /chart</text>
+
+  <!-- demotion edges -->
+  <g stroke="#B3402A" class="s-bad" stroke-width="1.6" fill="none" marker-end="url(#cbad)">
+    <path d="M515 216 C 515 296 220 296 152 220"/>
+    <path d="M885 216 C 885 330 240 330 128 220"/>
+  </g>
+  <g font-size="11.5" fill="#B3402A" class="f-bad" text-anchor="middle">
+    <text x="510" y="318">any rejection · rework · blocked build · land-gate failure → 0, instantly</text>
+  </g>
+
+  <!-- clamp -->
+  <g>
+    <rect x="30" y="30" width="970" height="40" rx="3" fill="none" stroke="#8A6D1F" class="s-hum" stroke-width="1.6"/>
+    <text x="515" y="55" font-size="12.5" fill="#8A6D1F" class="f-hum" font-weight="600" text-anchor="middle">CEILING — HARNESS_AUTONOMY_CEILING, set by the human · effective level = min(derived, ceiling)</text>
+  </g>
+  <g stroke="#8A6D1F" class="s-hum" stroke-width="1.1" fill="none" marker-end="url(#bhum)">
+    <path d="M145 70 V116"/>
+    <path d="M515 70 V116"/>
+    <path d="M885 70 V116"/>
+  </g>
+
+  <!-- derivation note -->
+  <g font-size="11.5" fill="#5C665A" class="f-mut">
+    <text x="30" y="382">clean task = landed with no rejection, no reopen, no blocked build, no failed land gate · window = last 5 tasks</text>
+    <text x="30" y="402">"proven zero interventions" reads the session transcripts; unreadable evidence counts against promotion, never for it</text>
+    <text x="30" y="422">derived fresh on every read from loop-events.log — there is nothing to reset, because nothing was stored</text>
+  </g>
+</svg>
