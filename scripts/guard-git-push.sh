@@ -39,8 +39,13 @@ fi
 # chained `foo && git push` is caught too.
 printf '%s' "$CMD" | grep -Eq '(^|[;&|(]|[[:space:]])git[[:space:]]+push\b' || exit 0
 
-BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+# head -1 guarantees a single-line field even on an unborn branch, where
+# rev-parse prints HEAD to stdout AND fails (so `|| echo` would append a
+# second line and wrap the tab-separated log record).
+BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null | head -1)"
+[ -n "$BRANCH" ] || BRANCH=unknown
 BASE="${HARNESS_BASE_BRANCH:-main}"
+# shellcheck disable=SC1091  # target-repo config, resolved at runtime
 [ -f .harness/config.env ] && . .harness/config.env 2>/dev/null
 BASE="${HARNESS_BASE_BRANCH:-main}"
 
@@ -63,7 +68,7 @@ fi
 
 # Reviewer, but still narrowly scoped.
 case "$CMD" in
-  *--force*|*--force-with-lease*|*" -f"*|*--mirror*|*--delete*|*--prune*|*--tags*)
+  *--force*|*" -f"*|*--mirror*|*--delete*|*--prune*|*--tags*)
     deny "flags" "Blocked: force, delete, mirror, prune, and tag pushes are never permitted.
 
 Attempted: $CMD

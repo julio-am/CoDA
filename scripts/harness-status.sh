@@ -10,6 +10,7 @@
 #   HARNESS_TEST_PATHS    space-separated test dirs (default: tests test)
 set -uo pipefail
 
+# shellcheck disable=SC1091  # target-repo config, resolved at runtime
 [ -f .harness/config.env ] && . .harness/config.env
 
 BASE_BRANCH="${HARNESS_BASE_BRANCH:-main}"
@@ -64,6 +65,7 @@ if [ -f "$ROADMAP" ]; then
       f && /^\*\*Status:\*\*|^- \*\*Status:\*\*/ {gsub(/.*Status:\*\* */,""); print; exit}
       f && /^## / {exit}
     ' "$ROADMAP")"
+    # shellcheck disable=SC2086  # TEST_PATHS is a space-separated list by design
     n=$(grep -rl "@harness:$id" $TEST_PATHS 2>/dev/null | wc -l | tr -d ' ')
     printf '%-8s %-14s %s file(s)\n' "$id" "${said:-?}" "$n"
   done

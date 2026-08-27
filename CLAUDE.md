@@ -23,13 +23,11 @@ guess a test runner.
 | Test — full suite | `bats tests` |
 | Test — single file | `bats {file}` |
 | Test — by marker/name | `bats tests --filter {pattern}` |
-| Lint | `shellcheck -S error scripts/*.sh INSTALL.sh` |
+| Lint | `shellcheck scripts/*.sh INSTALL.sh` |
 | Typecheck / static analysis | `bash -n scripts/*.sh INSTALL.sh` |
 | Format | (none — match the surrounding style; see Style) |
 
-The suite is seconds long; there is no separate fast subset. The Lint row
-gates at `-S error` because pre-existing sub-error findings exist; tightening
-to default severity is roadmap item R-005 and flips this row when it lands.
+The suite is seconds long; there is no separate fast subset.
 
 ## Repository map
 
@@ -71,17 +69,22 @@ blocking finding, not a style preference.
    | `.harness/state/current-task.md` | surveyor |
    | `.harness/state/plan.md` | architect |
    | `.harness/state/plan-critique.md` | plan-critic |
-   | `scripts/**` (minus `guard-*`), `tests/**` | implementer |
+   | per-repo source scope (see below) | implementer |
    | `docs/**`, `.harness/state/review.md` | reviewer |
    | `scripts/guard-*`, `.claude/**` | human only |
    | `.harness/state/blockers.md` | whichever agent is blocked |
-5. **Every push attempt is logged** — allowed or blocked — to
+5. **Write scopes are per-repo configuration.** The implementer's scope is
+   `HARNESS_IMPLEMENTER_SCOPE` (+ optional `_DENY`) in the target repo's
+   `.harness/config.env`; in this repo that is `^(scripts|tests)/` minus
+   `^scripts/guard-`. The guard fails closed when the scope is unset — an
+   uninitialised repo accepts no implementer writes.
+6. **Every push attempt is logged** — allowed or blocked — to
    `.harness/logs/git-push.log` before the guard returns its verdict.
-6. **`@harness:R-NNN` markers are plain grep targets.** Status derivation is
+7. **`@harness:R-NNN` markers are plain grep targets.** Status derivation is
    `grep -rl`; nothing may require a parser to decide whether an item is done.
-7. **`CLAUDE.md` and `.harness/config.env` state the same commands.** Agents
+8. **`CLAUDE.md` and `.harness/config.env` state the same commands.** Agents
    read the table, scripts read the file. A change to one changes both.
-8. **stdout/stderr discipline:** stderr is for humans, exit codes and stdout
+9. **stdout/stderr discipline:** stderr is for humans, exit codes and stdout
    are for machines.
 
 ## Style
@@ -90,7 +93,7 @@ blocking finding, not a style preference.
   its own fail-closed exit, not die mid-parse on `-e`); `set -euo pipefail`
   everywhere else.
 - Two-space indent. Lowercase locals, UPPERCASE for config/environment.
-- shellcheck-clean at `-S error` now, default severity once R-005 lands.
+- shellcheck-clean at default severity.
   Deliberate word-splitting (e.g. `$TEST_PATHS`) gets a directive comment,
   not quotes.
 - Comments explain why, not what.

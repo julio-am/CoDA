@@ -19,6 +19,7 @@
 #   HARNESS_TEST_PATHS    space-separated test dirs (default: tests test)
 set -uo pipefail
 
+# shellcheck disable=SC1091  # target-repo config, resolved at runtime
 [ -f .harness/config.env ] && . .harness/config.env
 
 BASE_BRANCH="${HARNESS_BASE_BRANCH:-main}"
@@ -36,6 +37,7 @@ fi
 
 echo "base commit: $(git log -1 --format='%h %s' "$BASE")"
 
+# shellcheck disable=SC2086  # TEST_PATHS is a space-separated list by design
 CHANGED="$(git diff --name-only --diff-filter=AM "$BASE"...HEAD -- $TEST_PATHS 2>/dev/null)"
 if [ -z "$CHANGED" ]; then
   echo "No new or modified test files under: $TEST_PATHS"
@@ -44,9 +46,11 @@ if [ -z "$CHANGED" ]; then
 fi
 
 echo "new/modified test files:"
+# shellcheck disable=SC2086  # one filename per word; paths never contain spaces here
 printf '  %s\n' $CHANGED
 
 WT="$(mktemp -d)"
+# shellcheck disable=SC2329  # invoked via the EXIT trap below
 cleanup() { git worktree remove --force "$WT" >/dev/null 2>&1 || true; }
 trap cleanup EXIT
 

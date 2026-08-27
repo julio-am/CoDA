@@ -30,7 +30,7 @@ above the test function, or in the test's docstring.
 
 ## R-001 — Guard path extraction fails closed without jq/python3
 
-- **Status:** todo
+- **Status:** done
 - **Intent:** `guard-write-paths.sh` promises to fail closed, but its sed
   fallback double-escapes the capture group (`\\(` where sed needs `\(`),
   extracts an empty path, and the guard treats "no path" as "nothing to
@@ -39,9 +39,9 @@ above the test function, or in the test's docstring.
   `guard-git-push.sh:27` shows the correct escaping. Restore fail-closed
   behaviour in the sed path.
 - **Acceptance:**
-  - [ ] `sed fallback extracts file_path when jq and python3 are absent`
-  - [ ] `guard blocks out-of-scope write via sed fallback alone`
-  - [ ] `guard with jq present still blocks out-of-scope write`
+  - [x] `sed fallback extracts file_path when jq and python3 are absent`
+  - [x] `guard blocks out-of-scope write via sed fallback alone`
+  - [x] `guard with jq present still blocks out-of-scope write`
 - **Constraints:** No new runtime dependencies. Keep the jq → python3 → sed
   fallback order. Exit codes 0/2 only (CLAUDE.md invariant 2). Tests may
   simulate a jq/python3-free machine via a restricted `PATH` fixture.
@@ -49,7 +49,7 @@ above the test function, or in the test's docstring.
 - **Out of scope:** `guard-git-push.sh`'s extractor (already correct);
   factoring the two extractors into a shared library; any change to the
   role→scope table.
-- **Notes:** —
+- **Notes:** Done 2026-08-26, directly by the overseer session — Julio directed engine bugs to be fixed outside the loop while the harness is brought up. Acceptance tests tagged and passing.
 
 ---
 
@@ -77,48 +77,48 @@ above the test function, or in the test's docstring.
 
 ## R-003 — Write-guard role scoping locked by tests
 
-- **Status:** todo
+- **Status:** done
 - **Intent:** The role→path matrix in `guard-write-paths.sh` is currently
   verified once, by hand, at install time (HANDOFF step 3). Promote it to a
   characterization suite so a later edit to the guard or its message cannot
   silently change enforcement.
 - **Acceptance:**
-  - [ ] `write guard matrix: each role allows its scope and blocks outside it`
-  - [ ] `write guard: blockers.md is writable by every role`
-  - [ ] `write guard: unknown role is blocked`
-  - [ ] `write guard: unparseable hook input is blocked`
-  - [ ] `write guard: implementer cannot modify scripts/guard-*`
+  - [x] `write guard matrix: each role allows its scope and blocks outside it`
+  - [x] `write guard: blockers.md is writable by every role`
+  - [x] `write guard: unknown role is blocked`
+  - [x] `write guard: unparseable hook input is blocked`
+  - [x] `write guard: implementer cannot modify scripts/guard-*`
 - **Constraints:** Tests invoke the real script with real hook JSON on stdin;
   no reimplementation of its logic in the test.
 - **Depends on:** R-002 (these tests pass at base by design)
 - **Out of scope:** The push guard (R-004).
-- **Notes:** —
+- **Notes:** Done 2026-08-26, directly by the overseer session — Julio directed engine bugs to be fixed outside the loop while the harness is brought up. Acceptance tests tagged and passing.
 
 ---
 
 ## R-004 — Push-guard policy locked by tests
 
-- **Status:** todo
+- **Status:** done
 - **Intent:** Same promotion as R-003, for `guard-git-push.sh`: the role
   gate, the flag gate, the branch gate, the refspec gate, and the log line.
 - **Acceptance:**
-  - [ ] `push guard: non-reviewer roles are blocked`
-  - [ ] `push guard: force, delete, mirror, prune, tags are blocked`
-  - [ ] `push guard: reviewer on a non-task branch is blocked`
-  - [ ] `push guard: refspec naming another branch is blocked`
-  - [ ] `push guard: every attempt appends one line to git-push.log`
+  - [x] `push guard: non-reviewer roles are blocked`
+  - [x] `push guard: force, delete, mirror, prune, tags are blocked`
+  - [x] `push guard: reviewer on a non-task branch is blocked`
+  - [x] `push guard: refspec naming another branch is blocked`
+  - [x] `push guard: every attempt appends one line to git-push.log`
 - **Constraints:** Tests run inside a throwaway git repo fixture so branch
   names are controlled; never against this repo's live state.
 - **Depends on:** R-002
 - **Out of scope:** The permission-prompt layer (`permissions.allow`) — that
   is Claude Code's, not the guard's.
-- **Notes:** —
+- **Notes:** Done 2026-08-26, directly by the overseer session — Julio directed engine bugs to be fixed outside the loop while the harness is brought up. Acceptance tests tagged and passing.
 
 ---
 
 ## R-005 — shellcheck-clean at default severity
 
-- **Status:** todo
+- **Status:** done
 - **Intent:** The Lint row gates at `-S error` because two warnings
   (SC2221/SC2222, a redundant case pattern in `guard-git-push.sh:66`) and a
   handful of info-level findings predate the suite. Fix the real redundancy,
@@ -127,14 +127,14 @@ above the test function, or in the test's docstring.
   then tighten the CLAUDE.md Lint row and this repo's gate to default
   severity.
 - **Acceptance:**
-  - [ ] `shellcheck at default severity exits 0 for scripts and INSTALL.sh`
+  - [x] `shellcheck at default severity exits 0 for scripts and INSTALL.sh`
 - **Constraints:** Directives over rewrites for deliberate patterns —
   quoting `$TEST_PATHS` would break multi-directory support. Guard behaviour
   must not change (R-003/R-004 suites, once they exist, must stay green).
 - **Depends on:** —
 - **Out of scope:** `shfmt`/formatting; restyling beyond what a directive or
   the named fix requires.
-- **Notes:** —
+- **Notes:** Done 2026-08-26, directly by the overseer session — Julio directed engine bugs to be fixed outside the loop while the harness is brought up. Acceptance tests tagged and passing.
 
 ---
 
