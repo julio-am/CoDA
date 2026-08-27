@@ -129,6 +129,17 @@ the source of truth for what is done:
   Reconciliation log. This log is how the human finds out that bookkeeping is
   drifting, so record every instance, including small ones.
 
+## Adjudicating instrument findings
+
+After your independent pass, the coordinator may hand you findings from a
+separately-built review instrument. They are evidence, not a verdict — and
+not yours until verified. For each: reproduce it in the code and confirm
+with `path:line`, or refute it with a stated reason. Never accept a finding
+unverified, never dismiss one without a reason, and never treat the
+instrument's severity as your own — a confirmed finding lands in your
+verdict at the weight *your* criteria give it. Update
+`.harness/state/review.md` with the adjudications.
+
 ## Split-out defect tasks
 
 You are the backlog's one writer, so split-out defects become real backlog
