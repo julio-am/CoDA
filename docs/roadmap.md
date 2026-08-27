@@ -158,6 +158,54 @@ above the test function, or in the test's docstring.
 - **Notes:** Rewritten 2026-08-26 when INSTALL.sh was retired; done the same
   day, directly by the overseer. Original INSTALL.sh remains in git history.
 
+## R-007 — Loading and enforcement mechanism (plugin + agent_type hooks)
+
+- **Status:** done
+- **Intent:** DevAgent is self-contained and pointable: the repo is a Claude
+  Code plugin, loaded into target-repo sessions via a settings-declared
+  local marketplace. Enforcement is session-wide PreToolUse hooks
+  (`hooks/hooks.json`, `${CLAUDE_PLUGIN_ROOT}` expansion) because plugin
+  agents' frontmatter hooks never fire — established empirically by two
+  probe rounds on 2026-08-26. Guards identify the actor from the hook
+  input's `agent_type` field, which is stronger than the original argv role
+  tag: an agent cannot invoke itself into a wider scope.
+- **Acceptance:**
+  - [x] `plugin, marketplace, and hooks manifests are valid JSON`
+  - [x] `every hook command resolves to an existing executable script`
+  - [x] `all five agents exist with frontmatter and no dead hooks blocks`
+  - [x] `all five commands exist; build and land are human-trigger only`
+- **Constraints:** Hook commands reference scripts via
+  `${CLAUDE_PLUGIN_ROOT}` only; agents reach engine scripts via
+  `HARNESS_ENGINE_ROOT` from the target's config — never a relative path.
+- **Depends on:** —
+- **Out of scope:** Distribution beyond this machine; multi-user
+  marketplaces.
+- **Notes:** Entry restored 2026-08-26 after the reconciliation log below
+  caught it missing; the tests existed first.
+
+---
+
+## R-008 — Agent output discipline and transcript trace tooling
+
+- **Status:** done
+- **Intent:** Agents narrated step-by-step in chat, drowning the signal at a
+  glance. Chat output is now restricted to results, load-bearing reasoning,
+  and questions-with-context (Communication block in every agent preamble,
+  anti-narration line in every command); the full thought process stays
+  accessible for meta-analysis via `scripts/harness-trace.sh`, which lists a
+  target repo's loop sessions and agent runs and renders any transcript —
+  thinking, tool calls, truncated results (`--full` for untruncated).
+- **Acceptance:**
+  - [x] `trace renders thinking, tool calls, results, and final text from a transcript`
+  - [x] `trace list mode fails informatively outside a repo with transcripts`
+- **Constraints:** Dev-time tool (python3 fine — invariant 3 binds guards
+  only). Prompt-side discipline is a tuning knob, deliberately untested.
+- **Depends on:** —
+- **Out of scope:** Token accounting in the trace; cross-repo search.
+- **Notes:** Done 2026-08-26 by the overseer at Julio's direction.
+
+---
+
 ## Reconciliation log
 
 The reviewer appends one line here whenever the repository disagreed with this
@@ -167,4 +215,5 @@ bad tasks.
 
 | Date | Item | Roadmap said | Repository showed | Resolution |
 |---|---|---|---|---|
+| 2026-08-26 | R-007 | (no entry) | 4 tests tagged @harness:R-007, passing | Entry restored; insert had failed silently (unasserted replace) |
 | | | | | |
