@@ -103,7 +103,10 @@ case "$ROLE" in
       echo "guard-write-paths.sh: HARNESS_IMPLEMENTER_SCOPE is not set in .harness/config.env — blocking all implementer writes (fail closed). Initialise this repo for the harness first." >&2
       exit 2
     fi ;;
-  reviewer)    ALLOW="${HARNESS_REVIEWER_SCOPE:-^(docs/|\.harness/state/review\.md$)}" ;;
+  reviewer)
+    ALLOW="${HARNESS_REVIEWER_SCOPE:-^(docs/|\.harness/state/review\.md$)}"
+    # The north star anchors the loop; the loop may not move its own anchor.
+    DENY="${HARNESS_REVIEWER_DENY:-^docs/northstar\.md$}" ;;
   *)
     echo "guard-write-paths.sh: unknown devagent role '$ROLE'. Blocking write to $REL." >&2
     exit 2

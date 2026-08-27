@@ -53,6 +53,8 @@ put "$TARGET/.harness/state/plan-critique.md" emit_critique
 # shellcheck disable=SC1091  # the file we may have just written
 . "$TARGET/.harness/config.env" 2>/dev/null || true
 put "$TARGET/${HARNESS_ROADMAP:-docs/roadmap.md}" emit_roadmap
+emit_northstar() { tmpl northstar.md; }
+put "$TARGET/docs/northstar.md" emit_northstar
 
 # Settings: additive deep-merge of the plugin pointer, permission floor, and
 # nesting cap. Existing keys always win; we only fill gaps.
@@ -77,6 +79,8 @@ want = {
             f"Bash({engine}/scripts/harness-status.sh)",
             f"Bash({engine}/scripts/verify-new-tests.sh:*)",
             f"Bash({engine}/scripts/harness-land-state.sh:*)",
+            f"Bash({engine}/scripts/harness-event.sh:*)",
+            f"Bash({engine}/scripts/harness-trajectory.sh:*)",
             f"Bash(git push origin {base}:*)",
             "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)",
             "Bash(git show:*)", "Bash(git branch:*)", "Bash(git merge-base:*)",

@@ -37,3 +37,5 @@ Steps:
    (the reviewer already pushed the `task/*` branch — that is expected).
 6. Report: the merge commit, each gate's result, the push result, and the
    archive location.
+7. Log via `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-event.sh <task> <event> [detail]`: `land-pushed <merge-sha>`, or `land-gate-failed <gate>`
+   when a gate stopped the push.

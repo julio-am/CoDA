@@ -155,3 +155,11 @@ setup() {
   run guard implementer /etc/hosts
   [ "$status" -eq 2 ]
 }
+
+# @harness:R-010
+@test "reviewer may not move the north star; other docs stay writable" {
+  run guard reviewer docs/northstar.md
+  [ "$status" -eq 2 ]
+  run guard reviewer docs/backlog.md
+  [ "$status" -eq 0 ]
+}

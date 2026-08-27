@@ -31,6 +31,7 @@ above the test function, or in the test's docstring.
 ## R-001 — Example item, delete me
 
 - **Status:** todo
+- **Milestone:** M1
 - **Intent:** One paragraph. What the user-visible or system-visible outcome
   is, and why. Not how.
 - **Acceptance:**

@@ -100,6 +100,18 @@ only, and put the proposed split in the packet's Split section so the reviewer
 can write it back into the roadmap. "This item needs splitting, here is slice
 1 of 3" is a correct and expected output, not a failure.
 
+**Milestone fence and fit line.** If `docs/northstar.md` exists, read it:
+pick only backlog items whose `Milestone:` field matches the **Current
+milestone** line (items with no Milestone field are ineligible until /chart
+assigns one). If no eligible item remains, do not improvise work — write
+that the milestone is exhausted, name the finished items, and end with
+exactly: `milestone exhausted — run /chart`. Every packet you do write must
+carry a **Fit** line directly under the Task section: one sentence naming
+the milestone and how this task serves its exit condition. A task whose fit
+you cannot state in one honest sentence is a task to flag, not to package.
+If there is no north star file, note that in the packet and proceed by
+backlog order.
+
 **5. Write `.harness/state/current-task.md`** using the template at
 `$HARNESS_ENGINE_ROOT/templates/current-task.md`. Overwrite whatever is there.
 

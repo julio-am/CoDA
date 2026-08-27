@@ -26,4 +26,8 @@ When the surveyor returns, show me:
 2. Every discrepancy it found between the roadmap, the tests, and the code.
 3. Whether a split was required, and the proposed split if so.
 
+Before stopping, log the outcome via `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-event.sh <task> <event> [detail]`:
+`survey-done milestone=<M>` when a packet was written, or
+`survey-exhausted` (task `-`) when the milestone is spent.
+
 Then stop. Do not proceed to planning. I will read the packet and run `/plan`.

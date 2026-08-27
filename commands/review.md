@@ -52,4 +52,8 @@ Then show me:
    reviewer caught that the other missed, in both directions. That
    discrepancy line is the standing quality measure of the reviewer itself.
 
+Log via `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-event.sh <task> <event> [detail]`: `review-verdict accept` or
+`review-verdict reject stage=N`, with `instrument=confirmed/refuted` counts
+in the detail when the instrument ran.
+
 Then stop. I decide whether to `/land` or send it back.

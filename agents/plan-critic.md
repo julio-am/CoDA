@@ -89,6 +89,10 @@ critique summary; the human decides at the gate.
 
 **4. Attack the scope.**
 
+- Does the packet's Fit line actually connect this task to the current
+  milestone's exit condition, or is it decorative? A vacuous or missing fit
+  is a finding — misaligned work compounds silently.
+
 - Does the change set exceed the packet's budget?
 - Does the plan quietly do something the packet didn't ask for?
 - Does Out of scope actually name things, or is it decorative?

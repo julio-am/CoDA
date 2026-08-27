@@ -21,6 +21,7 @@ setup() {
     [ -f "$T/.harness/state/$f.md" ]
   done
   [ -f "$T/docs/roadmap.md" ]
+  [ -f "$T/docs/northstar.md" ]
   python3 - "$T" <<'PY'
 import json, sys
 s = json.load(open(sys.argv[1] + "/.claude/settings.json"))
@@ -29,6 +30,8 @@ assert s["extraKnownMarketplaces"]["devagent-local"]["source"]["source"] == "dir
 assert s["env"]["CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH"] == "1"
 assert any("harness-status.sh" in a for a in s["permissions"]["allow"])
 assert any("harness-land-state.sh" in a for a in s["permissions"]["allow"])
+assert any("harness-event.sh" in a for a in s["permissions"]["allow"])
+assert any("harness-trajectory.sh" in a for a in s["permissions"]["allow"])
 assert "Bash(git push origin main:*)" in s["permissions"]["allow"]
 assert not any(":*origin" in d for d in s["permissions"]["deny"])
 PY

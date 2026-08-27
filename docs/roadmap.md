@@ -233,6 +233,85 @@ above the test function, or in the test's docstring.
 - **Notes:** Policy change by Julio 2026-08-26: the land coordinator judges
   push safety and pushes, replacing "Julio pushes main by hand, every time."
 
+## R-010 — North star anchor and milestone fence
+
+- **Status:** done
+- **Intent:** Targets get a human-owned `docs/northstar.md` (outcome
+  paragraph, observable working-conditions, non-goals, milestone ladder with
+  exit conditions and a Current marker). Backlog items carry `Milestone:`;
+  the surveyor picks only from the current milestone, writes a one-sentence
+  **Fit** line in every packet, and reports `milestone exhausted — run
+  /chart` instead of improvising when nothing is eligible. The critic
+  attacks vacuous fit lines. The reviewer is hook-denied from the north star
+  (`HARNESS_REVIEWER_DENY`, default `^docs/northstar\.md$`) — the loop may
+  not move its own anchor.
+- **Acceptance:**
+  - [x] `reviewer may not move the north star; other docs stay writable`
+  - [x] init scaffolds `docs/northstar.md` (asserted in the init suite)
+- **Constraints:** North star is written by the human; the navigator (R-012)
+  only proposes changes to it.
+- **Depends on:** —
+- **Out of scope:** The navigator itself; autonomy levels.
+- **Notes:** Done 2026-08-26 by the overseer at Julio's direction.
+
+---
+
+## R-011 — Durable loop events and derived trajectory
+
+- **Status:** done
+- **Intent:** Rejections and gate outcomes died with each loop's state
+  overwrite, so the HANDOFF's four steering numbers were unmeasurable.
+  Commands now append to `.harness/logs/loop-events.log` via
+  `harness-event.sh` (survey/critique/recheck/approval/build/simplify/
+  verdict/land events). `harness-trajectory.sh` derives, mechanically:
+  per-task event chains, rejection and rework counts, land-gate failures,
+  backlog inflow vs landed, human interventions (transcript-derived count of
+  non-approval messages), tripwire verdicts (with an explicit "run /chart"
+  instruction), and a suggested autonomy level.
+- **Acceptance:**
+  - [x] `event script appends single-line tab-separated records`
+  - [x] `event script refuses shell metacharacters in task and event`
+  - [x] `trajectory derives rates and tripwires from the event log`
+  - [x] `trajectory without an event log says so and exits 0`
+- **Constraints:** Append-only log; every rate must be derivable from
+  recorded facts, never a model's impression. Intervention counting is a
+  labeled heuristic (transcript scan), not ground truth.
+- **Depends on:** —
+- **Out of scope:** Enforcement of autonomy levels (R-012 consumes these
+  numbers; this item only produces them).
+- **Notes:** Done 2026-08-26 by the overseer at Julio's direction.
+
+---
+
+## R-012 — Navigator, /chart, and graduated autonomy
+
+- **Status:** todo
+- **Intent:** The outer loop's judgment stage. A `navigator` agent invoked
+  by `/chart` at milestone boundaries or on tripwire: reads the north star,
+  backlog, archives, and trajectory output; proposes the next milestone with
+  exit condition, new backlog items with acceptance sketches, reordering,
+  kills/deferrals, and — auditing, not asserting — whether the last
+  milestone's exit condition was actually reached. Human gate approves; the
+  coordinator applies to the backlog and north star. Autonomy controller:
+  gates auto-pass only when mechanical conditions hold (clean critic
+  re-check for the plan gate; Accept-with-no-material-notes plus clean
+  instrument adjudication for the review gate), promotion earned per
+  trajectory (N clean tasks, zero interventions), demotion instant on any
+  rework, rejection, or intervention. Ceiling set by the human in
+  config (`HARNESS_AUTONOMY_CEILING`), level derived, never stored.
+- **Acceptance:**
+  - [ ] navigator proposal template exists and /chart produces one
+  - [ ] autonomy level derivation locked by tests (promotion and demotion)
+  - [ ] gates consult the derived level and record auto-pass events
+- **Constraints:** Demotion is cheaper than promotion, always. The human
+  gate never disappears — it moves up (task → milestone → direction).
+- **Depends on:** R-010, R-011
+- **Out of scope:** Cross-project portfolio steering.
+- **Notes:** Target state per Julio 2026-08-26: input only on product
+  direction and features; implementation mostly behind the scenes.
+
+---
+
 ## Reconciliation log
 
 The reviewer appends one line here whenever the repository disagreed with this

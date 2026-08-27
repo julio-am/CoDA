@@ -50,3 +50,7 @@ over a deviation.
 
 If the implementer hit its attempt budget and wrote
 `.harness/state/blockers.md`, show me that instead and stop.
+
+Log via `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-event.sh <task> <event> [detail]`: `plan-approved` when I confirm at pre-flight; then
+`build-green attempts=N` or `build-blocked`; then `simplify-applied`,
+`simplify-dropped`, or `simplify-none`.

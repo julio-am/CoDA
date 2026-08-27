@@ -31,6 +31,10 @@ When both have returned, present to me in this order:
    the split, and the ordering opinion (fix first vs. proceed).
 4. A one-line summary of the change set: file count, test count.
 
+Log via `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-event.sh <task> <event> [detail]`: `critique-done blocking=N gaps=N questions=N` after the
+critic's first pass, and `recheck-done cleared=N notcleared=N` after a
+re-check.
+
 Then stop and wait. Do not implement anything, and do not revise the plan on
 your own initiative. When I ask for revisions: delegate **once** to the
 `architect` (my directives plus the critic's rulings), then **once** to the
