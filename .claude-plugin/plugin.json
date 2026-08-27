@@ -1,0 +1,5 @@
+{
+  "name": "devagent",
+  "description": "Four-stage development harness: surveyor, architect, plan-critic, implementer, reviewer. Point it at a repo; the repo holds its own backlog, config, and loop state.",
+  "version": "0.1.0"
+}

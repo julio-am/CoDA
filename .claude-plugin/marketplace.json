@@ -1,0 +1,11 @@
+{
+  "name": "devagent-local",
+  "owner": { "name": "Julio Medina" },
+  "plugins": [
+    {
+      "name": "devagent",
+      "source": "./",
+      "description": "Four-stage development harness engine"
+    }
+  ]
+}
