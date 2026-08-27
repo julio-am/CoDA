@@ -32,6 +32,7 @@ assert any("harness-status.sh" in a for a in s["permissions"]["allow"])
 assert any("harness-land-state.sh" in a for a in s["permissions"]["allow"])
 assert any("harness-event.sh" in a for a in s["permissions"]["allow"])
 assert any("harness-trajectory.sh" in a for a in s["permissions"]["allow"])
+assert any("harness-autonomy.sh" in a for a in s["permissions"]["allow"])
 assert "Bash(git push origin main:*)" in s["permissions"]["allow"]
 assert not any(":*origin" in d for d in s["permissions"]["deny"])
 PY

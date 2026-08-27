@@ -114,17 +114,5 @@ else:
     print("  none fired")
 
 print("\n== AUTONOMY ====================================================")
-iv = 0 if isinstance(interventions, str) and interventions.startswith("0 ") else 1
-clean = (rejects == 0 and rework == 0 and gate_fail == 0 and not fired)
-if n < 3:
-    lvl, why = 0, f"only {n} task(s) of history — not enough evidence"
-elif clean and iv == 0:
-    lvl, why = 2, f"{n} clean tasks, zero interventions — gates could auto-pass on clean verdicts"
-elif clean:
-    lvl, why = 1, "clean verdicts but human interventions occurred — plan gate stays"
-else:
-    lvl, why = 0, "tripwires or rejections in window"
-print(f"  suggested level: {lvl}  ({why})")
-print("  0 = both gates human · 1 = review gate auto on clean Accept ·")
-print("  2 = both gates auto when mechanical conditions hold · ceiling is yours")
 PYEOF
+"$(dirname "$0")/harness-autonomy.sh" "$WINDOW" | sed 's/^/  /'

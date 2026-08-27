@@ -163,3 +163,13 @@ setup() {
   run guard reviewer docs/backlog.md
   [ "$status" -eq 0 ]
 }
+
+# @harness:R-012
+@test "navigator writes only its proposal" {
+  run guard navigator .harness/state/chart-proposal.md
+  [ "$status" -eq 0 ]
+  run guard navigator docs/backlog.md
+  [ "$status" -eq 2 ]
+  run guard navigator docs/northstar.md
+  [ "$status" -eq 2 ]
+}

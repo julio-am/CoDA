@@ -6,6 +6,11 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Run stage 1 of the development harness.
 
+**Pre-step:** `. .harness/config.env` and run
+`"$HARNESS_ENGINE_ROOT"/scripts/harness-trajectory.sh`. If any tripwire is
+FIRED, stop before delegating: show me the tripwires and tell me to run
+`/chart`. A drifting loop should not be handed another task.
+
 Work without narration — no play-by-play, no announcing steps. Your
 visible output is the report specified at the end.
 

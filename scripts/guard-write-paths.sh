@@ -94,6 +94,7 @@ case "$ROLE" in
   surveyor)    ALLOW='^\.harness/state/current-task\.md$' ;;
   architect)   ALLOW='^\.harness/state/plan\.md$' ;;
   plan-critic) ALLOW='^\.harness/state/plan-critique\.md$' ;;
+  navigator)   ALLOW='^\.harness/state/chart-proposal\.md$' ;;
   implementer)
     # The one scope that differs per repo. No configured scope, no writes:
     # an implementer pointed at an uninitialised repo must not guess.

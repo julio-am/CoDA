@@ -81,6 +81,7 @@ want = {
             f"Bash({engine}/scripts/harness-land-state.sh:*)",
             f"Bash({engine}/scripts/harness-event.sh:*)",
             f"Bash({engine}/scripts/harness-trajectory.sh:*)",
+            f"Bash({engine}/scripts/harness-autonomy.sh:*)",
             f"Bash(git push origin {base}:*)",
             "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)",
             "Bash(git show:*)", "Bash(git branch:*)", "Bash(git merge-base:*)",

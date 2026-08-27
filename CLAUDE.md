@@ -56,7 +56,8 @@ The suite is seconds long; there is no separate fast subset.
   changing two things at once destroys the only eval available (re-running
   the same task). No `hooks:` frontmatter: plugin agents' frontmatter hooks
   never fire (probed 2026-08-26); enforcement lives in `hooks/hooks.json`.
-- `commands/` — `/next` `/plan` `/build` `/review` `/land`.
+- `commands/` — `/next` `/plan` `/build` `/review` `/land`, plus the outer
+  loop: `/chart` (milestone judgment) and `/cycle` (autonomy-gated driver).
 - `hooks/hooks.json` — session-wide PreToolUse wiring for the two guards,
   via `${CLAUDE_PLUGIN_ROOT}`. This is the enforcement path.
 - `scripts/` — the machinery. Status derivation (`harness-status.sh`), test
@@ -96,6 +97,7 @@ blocking finding, not a style preference.
    | `.harness/state/current-task.md` | surveyor |
    | `.harness/state/plan.md` | architect |
    | `.harness/state/plan-critique.md` | plan-critic |
+   | `.harness/state/chart-proposal.md` | navigator |
    | per-repo source scope (see below) | implementer |
    | `docs/**`, `.harness/state/review.md` | reviewer |
    | `scripts/guard-*`, `agents/**`, `commands/**`, `hooks/**` | human only |

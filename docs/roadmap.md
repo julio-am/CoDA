@@ -285,7 +285,7 @@ above the test function, or in the test's docstring.
 
 ## R-012 — Navigator, /chart, and graduated autonomy
 
-- **Status:** todo
+- **Status:** in-progress
 - **Intent:** The outer loop's judgment stage. A `navigator` agent invoked
   by `/chart` at milestone boundaries or on tripwire: reads the north star,
   backlog, archives, and trajectory output; proposes the next milestone with
@@ -300,9 +300,14 @@ above the test function, or in the test's docstring.
   rework, rejection, or intervention. Ceiling set by the human in
   config (`HARNESS_AUTONOMY_CEILING`), level derived, never stored.
 - **Acceptance:**
-  - [ ] navigator proposal template exists and /chart produces one
-  - [ ] autonomy level derivation locked by tests (promotion and demotion)
-  - [ ] gates consult the derived level and record auto-pass events
+  - [x] `navigator writes only its proposal` (guard-enforced scope)
+  - [x] `no history derives level 0`
+  - [x] `three clean tasks derive 1 (interventions unproven), ceiling gates effective level`
+  - [x] `one rejection in the window demotes derived to 0 instantly`
+  - [x] `fewer than three tasks never promotes`
+  - [x] six agents / seven commands locked in the plugin-layout suite
+  - [ ] first /chart run produces an approved proposal (proves the prompt
+    side; checked in the field, not in bats)
 - **Constraints:** Demotion is cheaper than promotion, always. The human
   gate never disappears — it moves up (task → milestone → direction).
 - **Depends on:** R-010, R-011

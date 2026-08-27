@@ -30,8 +30,8 @@ PY
 }
 
 # @harness:R-007
-@test "all five agents exist with frontmatter and no dead hooks blocks" {
-  for a in surveyor architect plan-critic implementer reviewer; do
+@test "all six agents exist with frontmatter and no dead hooks blocks" {
+  for a in surveyor architect plan-critic implementer reviewer navigator; do
     f="$REPO/agents/$a.md"
     [ -f "$f" ]
     head -1 "$f" | grep -q '^---$'
@@ -41,10 +41,11 @@ PY
 }
 
 # @harness:R-007
-@test "all five commands exist; build and land are human-trigger only" {
-  for c in next plan build review land; do
+@test "all commands exist; side-effectful ones are human-trigger only" {
+  for c in next plan build review land chart cycle; do
     [ -f "$REPO/commands/$c.md" ]
   done
-  grep -q 'disable-model-invocation: true' "$REPO/commands/build.md"
-  grep -q 'disable-model-invocation: true' "$REPO/commands/land.md"
+  for c in build land chart cycle; do
+    grep -q 'disable-model-invocation: true' "$REPO/commands/$c.md"
+  done
 }
