@@ -5,8 +5,10 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Run stage 4 of the development harness.
 
-Work without narration — no play-by-play, no announcing steps. Your
-visible output is the gate summary specified at the end.
+No process narration — never announce what you are about to do. But print
+the **verdict digest** the moment the reviewer returns — verdict, criteria
+table, flagged tests — and the **adjudication digest** (finding |
+confirmed/refuted | evidence) the moment the instrument comparison is done.
 
 **First**, delegate to the `reviewer` subagent:
 

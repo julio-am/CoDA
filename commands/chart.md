@@ -6,8 +6,9 @@ disable-model-invocation: true
 
 Run the outer loop's judgment stage.
 
-Work without narration — no play-by-play. Your visible output is the
-proposal summary and my approval checkpoints.
+No process narration. Print the trajectory's tripwire and autonomy lines
+as soon as you have them, and the proposal digest the moment the navigator
+returns.
 
 **First**, mechanically:
 `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-event.sh - chart-run`

@@ -6,8 +6,8 @@ disable-model-invocation: true
 
 Land the current task. I have read the review and accepted it.
 
-Work without narration — no play-by-play. Your visible output is each
-confirmation checkpoint and the final state.
+No process narration. Each checkpoint and each gate verdict prints the
+moment it is decided — never batched to the end.
 
 Diff summary: !`. .harness/config.env 2>/dev/null; git diff --stat $(git merge-base HEAD "${HARNESS_BASE_BRANCH:-main}" 2>/dev/null || echo HEAD~1)...HEAD`
 Status: !`git status --porcelain`

@@ -11,8 +11,15 @@ Run stage 1 of the development harness.
 FIRED, stop before delegating: show me the tripwires and tell me to run
 `/chart`. A drifting loop should not be handed another task.
 
-Work without narration — no play-by-play, no announcing steps. Your
-visible output is the report specified at the end.
+No process narration — never announce what you are about to do. But
+decisions surface the moment they exist: when the surveyor returns, print
+the **survey digest** immediately —
+
+- **Task:** `<ID>` — title, and why it was picked over the others
+- **Fit:** the packet's fit line, verbatim
+- **Budget:** estimated lines / files / tests vs the limits
+- **Discrepancies:** one line each, or "none"
+- **Split:** proposed slices, or "not needed"
 
 Delegate to the `surveyor` subagent. Give it this task:
 

@@ -8,8 +8,13 @@ Drive the harness loop. I am invoking this deliberately: you may run every
 stage below without asking again, and my gates are enforced by the autonomy
 level, which you must consult rather than assume.
 
-Work without narration — no play-by-play. Your visible output is gate
-summaries, stop reports, and the end-of-cycle report.
+No process narration — but the human is watching this run live, and
+decisions must surface as they are made: each stage command you follow
+defines a **stage digest** (survey, plan, critique, re-check, handoff,
+verdict, adjudication); print each one the moment that stage completes,
+exactly as its command specifies. The quiet between digests is tool work;
+a digest is never meta-commentary ("starting the reviewer") — it is the
+decision content itself, in bullets and tables.
 
 Setup: `. .harness/config.env`; read the autonomy level:
 `"$HARNESS_ENGINE_ROOT"/scripts/harness-autonomy.sh` (first line). Cap this

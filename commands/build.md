@@ -6,8 +6,9 @@ disable-model-invocation: true
 
 Run stage 3 of the development harness.
 
-Work without narration — no play-by-play, no announcing steps. Your
-visible output is the pre-flight questions (if any) and the handoff report.
+No process narration — never announce what you are about to do. Pre-flight
+questions surface as they arise; the handoff and simplify digests print the
+moment each exists.
 
 Current branch: !`git rev-parse --abbrev-ref HEAD`
 Working tree: !`git status --porcelain | head -20`

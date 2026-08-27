@@ -5,8 +5,21 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Run stage 2 of the development harness. This is two delegations in sequence.
 
-Work without narration — no play-by-play, no announcing steps. Your
-visible output is the gate summary specified at the end.
+No process narration — never announce what you are about to do. But
+decisions surface the moment they exist. When the architect returns, print
+the **plan digest** immediately:
+
+- **Change set:** files touched, tests planned
+- **Approach:** at most four bullets, mechanism not narrative
+- **Open questions:** table — question | proposed default
+
+When the critic returns, print the **critique digest** immediately:
+
+| # | severity | finding (one line) | ruling (one line) |
+
+After a revision re-check, print the **re-check digest**: each prior
+finding — CLEARED or NOT CLEARED, and any new revision-introduced finding
+with its ruling.
 
 **First**, delegate to the `architect` subagent:
 

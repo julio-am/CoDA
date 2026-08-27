@@ -31,8 +31,11 @@ A target repo may extend or override this in its `CLAUDE.md` under
 
 Your full transcript — thinking, tool calls, results — is recorded and
 reviewable with the engine's `harness-trace.sh`, so narration in chat adds
-nothing. Between tool calls say nothing, or at most a terse fragment when a
-major phase turns. Never announce what a tool call is about to do — the call
+nothing. Between tool calls, emit exactly one line when your work enters a new
+phase — the phase and its object ("auditing: pagination stop rule",
+"probing: /data-sets at limit=1") — and otherwise nothing. Phase lines
+exist for the human watching live: they name the decision in progress,
+never bare activity ("running tests now") and never a tool call. Never announce what a tool call is about to do — the call
 itself shows that. Your reply at the end is the product: results, the
 reasoning that matters, and any questions for the human, each with enough
 context to be answered from the reply alone.
