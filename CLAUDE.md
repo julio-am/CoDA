@@ -6,9 +6,25 @@ the one place where a rule reaches all five stages of the harness.
 
 Keep it short and factual. Commands, invariants, hard rules. Not prose.
 
-**This repository is the harness developing itself.** The product is the set
-of scripts, agent prompts, and state conventions that run the four-stage loop.
-The loop that builds it is the same loop it implements.
+**This repository is the engine, not a target.** The product is the set of
+agent prompts, commands, guards, and scripts that run the four-stage loop in
+*other* repositories. Target repos hold their own backlog, config
+(`.harness/config.env`), docs, and live loop state; this repo holds the rules
+and the machinery. Per Julio (2026-08-26): the harness does not iterate on
+itself yet — engine work is done directly by the overseer session, and the
+loop is dogfooded against `~/Projects/worldquant-brain`.
+
+## Operating model
+
+- **Overseer session** (in this repo): fixes the engine, tunes agent prompts
+  — one change at a time, re-running the same task, because that is the only
+  eval available. Reads the dogfood loop's artifacts from the target repo's
+  `.harness/state/` and its session transcripts.
+- **Target session** (in the target repo): where `/next` `/plan` `/build`
+  `/review` `/land` run. Subagents spawn there; hooks fire against that
+  repo's config.
+- **Julio**: the two human gates (plan approval, review acceptance), and the
+  only trigger for `/build` and `/land`.
 
 ---
 
