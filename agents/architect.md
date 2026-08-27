@@ -108,3 +108,12 @@ disagree.
 Write the file, then return the change-set file list, the test names, and the
 open questions verbatim. Nothing else — the human reads the plan file, not
 your summary of it.
+
+## Revising against a critique
+
+When revising against `.harness/state/plan-critique.md`, address every
+finding by its ruling: fold the requirement into the plan, or contest it in
+a **Contested rulings** subsection under the plan's open questions — one
+line of reasons per contest; the human settles contests at the gate. Never
+silently drop a ruling. One revision per critique round: after the critic's
+re-check, the plan goes to the gate as it stands, disputes and all.

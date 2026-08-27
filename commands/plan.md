@@ -27,5 +27,10 @@ When both have returned, present to me in this order:
 3. A one-line summary of the change set: file count, test count.
 
 Then stop and wait. Do not implement anything, and do not revise the plan on
-your own initiative. If I ask for revisions, delegate them back to the
-`architect`, then re-run the `plan-critic` on the revised plan.
+your own initiative. When I ask for revisions: delegate **once** to the
+`architect` (my directives plus the critic's rulings), then **once** to the
+`plan-critic` to re-check — it verdicts each prior finding CLEARED or NOT
+CLEARED and may add only Blocking findings the revision itself introduced.
+Present the verdicts and any contested rulings, then stop. One revision +
+re-check cycle per instruction from me; disagreement that survives it is
+mine to settle, not the loop's.
