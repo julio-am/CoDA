@@ -29,9 +29,24 @@ Working tree: !`git status --porcelain | head -20`
 > `.harness/state/plan-critique.md`. Write the planned tests, drive the suite
 > green, and commit on the task branch.
 
-When it returns, show me its handoff verbatim — what it built, tests added,
-**anything it did differently from the plan**, and the final suite status. Do
-not editorialise the handoff or smooth over a deviation.
+**After it returns green** (skip this entirely if it wrote blockers): run the
+built-in `simplify` skill on the branch's changed code — a polish pass for
+reuse, simplification, and efficiency. It applies fixes directly. Then:
 
-If it hit its attempt budget and wrote `.harness/state/blockers.md`, show me
-that instead and stop.
+1. Re-run the full suite (`HARNESS_TEST_CMD` from `.harness/config.env`).
+2. Green → commit the polish as its own commit on the task branch, message
+   `<ID>: simplify pass (engine-applied)`, so the reviewer sees the
+   implementer's work and the machine polish as separable diffs.
+3. Red → revert exactly the files the simplify pass touched (`git restore`
+   on those paths — nothing else in the tree), and report the pass as
+   dropped, with the failure output. Never leave the branch red, and never
+   revert anything the simplify pass did not write.
+
+When done, show me the implementer's handoff verbatim — what it built, tests
+added, **anything it did differently from the plan**, and the final suite
+status — plus one line on the simplify outcome: applied (files touched),
+dropped (why), or no findings. Do not editorialise the handoff or smooth
+over a deviation.
+
+If the implementer hit its attempt budget and wrote
+`.harness/state/blockers.md`, show me that instead and stop.
