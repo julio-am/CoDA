@@ -72,6 +72,14 @@ case "$PATH_ARG" in
   *)  REL="$PATH_ARG" ;;
 esac
 
+# Session scratch areas are not repository artifacts. Probes and working
+# files there are legitimate for every role — the one-writer rule guards the
+# repo, not the sandbox. Anything else absolute and outside the repo stays
+# blocked (that includes the engine checkout).
+case "$REL" in
+  /private/tmp/claude-[0-9]*/*|/tmp/claude-[0-9]*/*) exit 0 ;;
+esac
+
 # Per-repo scope configuration. When the hook fires, CWD is the repo being
 # developed, so this reads the target repo's config — the engine stays
 # generic, the repo says which directories are source.

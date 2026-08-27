@@ -137,3 +137,21 @@ setup() {
   [ "$status" -eq 2 ]
   [[ "$output" == *HARNESS_IMPLEMENTER_SCOPE* ]]
 }
+
+# --- scratch areas ---
+
+# @harness:R-003
+@test "every role may write to the session scratchpad" {
+  run guard architect /private/tmp/claude-501/-proj/sess-id/scratchpad/probe.py
+  [ "$status" -eq 0 ]
+  run guard implementer /tmp/claude-501/x/notes.txt
+  [ "$status" -eq 0 ]
+}
+
+# @harness:R-003
+@test "absolute paths outside repo and scratch stay blocked - engine included" {
+  run guard implementer /Users/julio/Projects/DevAgent/scripts/guard-write-paths.sh
+  [ "$status" -eq 2 ]
+  run guard implementer /etc/hosts
+  [ "$status" -eq 2 ]
+}

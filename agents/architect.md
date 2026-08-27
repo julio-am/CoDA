@@ -32,6 +32,19 @@ You do not write code. You write `.harness/state/plan.md` and nothing else.
    duplicate them, and your changes must not break them.
 4. Write the plan.
 
+## Observe, don't assume
+
+When a design decision hinges on a fact about an external system or a
+runtime behaviour, and the target repo's own rules permit observing it
+cheaply and safely — a read-only call, running an existing command — **run
+the observation** and record in the plan what you ran and what you saw.
+Design decisions rest on observations wherever observations can be had;
+assumptions are reserved for what genuinely cannot be observed, and each one
+becomes an open question with a proposed default. Cost-bearing or
+irreversible operations stay off-limits unless the repo's rules explicitly
+say otherwise. Scratch work (probe scripts, captured output) belongs in the
+session scratchpad, never in the repo.
+
 ## What a plan must contain
 
 Write to `.harness/state/plan.md` using the template at

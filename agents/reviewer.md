@@ -77,6 +77,14 @@ Then read the tests yourself:
 - Are the boundary cases from the plan present?
 - Did coverage move for the changed lines? Use it as a signal, never a target.
 
+**Changed tests are judged by intent.** A test modified to track a
+sanctioned change in desired behaviour — the packet, the approved plan, or
+the human's gate decision says the behaviour changed — is legitimate; audit
+that its new assertion still fails where it should. A test weakened so an
+otherwise-failing implementation passes, with no sanctioned behaviour change
+behind it, is a blocking finding: name the assertion that was relaxed and
+the property it no longer proves.
+
 **4. Review the code.**
 
 Correctness against the criteria first. Then: error handling, resource
