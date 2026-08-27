@@ -57,8 +57,13 @@ put "$TARGET/${HARNESS_ROADMAP:-docs/roadmap.md}" emit_roadmap
 # Settings: additive deep-merge of the plugin pointer, permission floor, and
 # nesting cap. Existing keys always win; we only fill gaps.
 python3 - "$TARGET" "$ENGINE" <<'PYEOF'
-import json, pathlib, sys
+import json, pathlib, sys, re
 target, engine = sys.argv[1], sys.argv[2]
+base = "main"
+cfg = pathlib.Path(target) / ".harness" / "config.env"
+if cfg.exists():
+    m = re.search(r'^HARNESS_BASE_BRANCH="([^"]+)"', cfg.read_text(), re.M)
+    if m: base = m.group(1)
 p = pathlib.Path(target) / ".claude" / "settings.json"
 existing = json.loads(p.read_text()) if p.exists() else {}
 
@@ -71,6 +76,8 @@ want = {
         "allow": [
             f"Bash({engine}/scripts/harness-status.sh)",
             f"Bash({engine}/scripts/verify-new-tests.sh:*)",
+            f"Bash({engine}/scripts/harness-land-state.sh:*)",
+            f"Bash(git push origin {base}:*)",
             "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)",
             "Bash(git show:*)", "Bash(git branch:*)", "Bash(git merge-base:*)",
             "Bash(git worktree:*)",
@@ -79,7 +86,6 @@ want = {
             "Bash(git reset --hard:*)", "Bash(git checkout .:*)",
             "Bash(git clean:*)", "Bash(git rebase:*)",
             "Bash(git commit --amend:*)", "Bash(rm -rf:*)",
-            "Bash(git push:*origin main*)", "Bash(git push:*origin master*)",
         ],
     },
     "env": {"CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "1"},

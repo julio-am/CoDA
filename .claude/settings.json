@@ -6,9 +6,7 @@
       "Bash(git clean:*)",
       "Bash(git rebase:*)",
       "Bash(git commit --amend:*)",
-      "Bash(rm -rf:*)",
-      "Bash(git push:*origin main*)",
-      "Bash(git push:*origin master*)"
+      "Bash(rm -rf:*)"
     ],
     "allow": [
       "Bash(git status:*)",

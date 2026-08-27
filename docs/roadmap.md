@@ -206,6 +206,33 @@ above the test function, or in the test's docstring.
 
 ---
 
+## R-009 — /land archiving scripted; default-branch push safety-gated
+
+- **Status:** done
+- **Intent:** The first /land improvised its archive step with mkdir/cp
+  (permission prompts, non-deterministic) and ended in a push-permission
+  prompt Julio explicitly did not want. Archiving is now
+  `scripts/harness-land-state.sh <ID>` (archive to `.harness/logs/<ID>-<date>/`,
+  reset live state from engine templates, refuse to overwrite an archive),
+  and /land pushes the default branch itself after four mechanical gates:
+  clean tree on the default branch, archived verdict is Accept, suite green
+  on the merge, fast-forward push only. harness-init's settings floor
+  allowlists the script and the plain `git push origin <base>` form, and the
+  old deny entries — malformed pattern syntax, provably never fired — are
+  gone instead of repaired, since a working deny would override the new
+  allow.
+- **Acceptance:**
+  - [x] `archives all state files and resets live state from engine templates`
+  - [x] `refuses a second archive of the same id on the same day`
+  - [x] `refuses malformed ids and non-target directories`
+- **Constraints:** Push gates are verified mechanically, never assumed; a
+  failed gate stops the push and reports. No force in any form.
+- **Depends on:** —
+- **Out of scope:** Auto-pushing task branches (reviewer's push keeps its
+  permission prompt); multi-remote setups.
+- **Notes:** Policy change by Julio 2026-08-26: the land coordinator judges
+  push safety and pushes, replacing "Julio pushes main by hand, every time."
+
 ## Reconciliation log
 
 The reviewer appends one line here whenever the repository disagreed with this

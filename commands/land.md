@@ -9,25 +9,31 @@ Land the current task. I have read the review and accepted it.
 Work without narration — no play-by-play. Your visible output is each
 confirmation checkpoint and the final state.
 
-Diff summary: !`git diff --stat $(git merge-base HEAD @{u} 2>/dev/null || echo HEAD~1)...HEAD`
+Diff summary: !`. .harness/config.env 2>/dev/null; git diff --stat $(git merge-base HEAD "${HARNESS_BASE_BRANCH:-main}" 2>/dev/null || echo HEAD~1)...HEAD`
 Status: !`git status --porcelain`
 
 Steps:
 
 1. Show me the full list of files that will be committed, split into code,
    tests, and documentation. Wait for my confirmation before committing.
-2. Stage and commit on the task branch. Two commits, in this order:
-   - the code and test changes
-   - the documentation and roadmap reconciliation
-   Reference the roadmap ID in both messages. Plain messages, no marketing.
+2. Normally there is nothing new to stage — the implementer and reviewer
+   committed during their stages (code+tests, then docs+reconciliation). If
+   anything reviewed remains uncommitted, commit it in that order,
+   referencing the roadmap ID; plain messages, no marketing.
 3. Merge the task branch into the default branch with `--no-ff`.
-4. Archive the loop state: copy `.harness/state/*.md` to
-   `.harness/logs/<ID>-<date>/`, then reset the state files from the engine's
-   templates (`$HARNESS_ENGINE_ROOT/templates/`, per `.harness/config.env`).
-5. Report the merge commit and tell me the default branch is ready to push.
-
-**Do not push the default branch.** I push that, by hand, every time. The
-reviewer may already have pushed the `task/*` branch to origin — that is
-expected and is the only push an agent performs. If `git push` targeting the
-default branch appears anywhere in your plan for this command, you have
-misread it.
+4. Archive the loop state:
+   `. .harness/config.env && "$HARNESS_ENGINE_ROOT"/scripts/harness-land-state.sh <ID>`
+5. **Judge whether the merge is safe to push, then push it.** All four
+   gates must pass, mechanically verified, before pushing:
+   - On the default branch with a clean working tree.
+   - The archived review's verdict is Accept (read it from the archive
+     just written).
+   - The full suite is green on the merged result (`HARNESS_TEST_CMD`).
+   - `origin/<default>` is an ancestor of HEAD — the push fast-forwards,
+     no force of any kind.
+   All pass → `git push origin <default>`, plain, exactly that form.
+   Any gate fails → do not push; report which gate and why, and stop. Never
+   work around a failed gate, never force, never push any other ref here
+   (the reviewer already pushed the `task/*` branch — that is expected).
+6. Report: the merge commit, each gate's result, the push result, and the
+   archive location.
