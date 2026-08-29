@@ -1,4 +1,4 @@
-# DevAgent
+# CoDA — Multi-Agent Development Harness for Claude Code
 
 A four-stage development harness for Claude Code: five agents (surveyor,
 architect, plan-critic, implementer, reviewer) plus an outer-loop navigator,
